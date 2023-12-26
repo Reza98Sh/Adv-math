@@ -1,9 +1,9 @@
 % Define parameters and constants
-L = 1; % length of the beam (example value)
-E = 1; % Young's modulus (example value)
-I = 1; % Area moment of inertia (example value)
-rho = 1; % Density (example value)
-A = 1; % Cross sectional area (example value)
+L = 1; 
+E = 1; 
+I = 1; 
+rho = 1; 
+A = 1; 
 
 
 
