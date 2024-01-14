@@ -1,41 +1,20 @@
-% Define parameters and constants
-L = 1; 
-E = 1; 
-I = 1; 
-rho = 1; 
-A = 1; 
+clear; 
+clc
+syms x t A_n B_n
+L = 1000;
+b = 50;
+tickness = 1;
+A = t*b;
+E= 169; 
+I = (b*tickness^3)/12;
+rho = 2330; % kg/m3
 
+mode_shapes_num = 5;
 
-
-% Initial conditions
-y0 = [1; 1]; 
-
-% Time span
-tspan = [0, 10]; 
-
-
-[t, y] = ode45(@(t, y) beamODE(t, y, L, E, I, rho, A), tspan, y0);
-
-% Plot the results
-figure;
-plot(t, y(:,1))
-title('Displacement vs. Time')
-xlabel('Time (s)')
-ylabel('Displacement (m)')
-
-figure;
-plot(t, y(:,2))
-title('Velocity vs. Time')
-xlabel('Time (s)')
-ylabel('Velocity (m/s)')
-
-
-function dydt = beamODE(t, y, L, E, I, rho, A)
-    % y(1) is displacement, y(2) is velocity
-    
-    % Implement the actual ODEs here
-    % dydt(1) = y(2);
-    % dydt(2) = -E*I/(rho*A*L^4) * some_function_of_y_and_t;
-    
-    dydt = [y(2); -E*I/(rho*A*L^4) * y(1)]; 
+deflection = 0;
+for n=1:mode_shapes_num
+    beta_n = (2*n-1)*pi/(2*L);
+    W_n_calculator(beta_n);
+    Omega_n = ((beta_n*L)^2)*(E*I/(rho*A*L^4))^0.5;
+    deflection = deflection + vpa(W_n_calculator(beta_n)*(A_n*cos(Omega_n*t)+B_n*sin(Omega_n*t)))
 end
